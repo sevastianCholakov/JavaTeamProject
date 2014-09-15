@@ -30,13 +30,15 @@ public class Ball {
                     ya = -1;
                 if (collision()){
                 	xa = -xa;
-                	xa++;
+                	if(x<12)
+                		xa++;
                     x = 20;
                     
                 }
                 if (collision2()) {
                 	xa = -xa;
-                	xa--;
+                	if(x>-12)
+                		xa--;
 					x = 980 - image.getWidth(null);
 					
 				}
