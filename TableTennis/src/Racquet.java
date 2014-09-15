@@ -8,7 +8,7 @@ public class Racquet {
         private static final int X = 0;
         private static final int HEIGHT = 150;
         private static final int WIDTH = 20;
-        int y = 425;
+        int y = 275;
         int ya = 0;
         //Image image = Toolkit.getDefaultToolkit().createImage("/home/melloboy89/Game/TableTennis/lastgifs/board.gif");
         private Game game;
@@ -32,9 +32,9 @@ public class Racquet {
  
         public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_W)
-                        ya = -20;
+                        ya = -10;
                 if (e.getKeyCode() == KeyEvent.VK_S)
-                        ya = 20;
+                        ya = 10;
         }
  
         public Rectangle getBounds() {

@@ -1,9 +1,12 @@
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.RenderingHints;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -14,12 +17,13 @@ public class Game extends JPanel {
         Ball ball = new Ball(this);
         Racquet racquet = new Racquet(this);
         Racquet2 racquet2 = new Racquet2(this);
+        private static Image background;
         /*int speed = 1;
         private int getScore(){
                 return speed -1;
         }*/
         public static int count = 0;
-        public static int  threadSpeed = 15;
+        public static int  threadSpeed = 7;
         public Game() {
                 addKeyListener(new KeyListener() {
                         @Override
@@ -40,6 +44,7 @@ public class Game extends JPanel {
                         
                        
                 });
+                loadBackground();
                 setFocusable(true);
         }
        
@@ -49,13 +54,19 @@ public class Game extends JPanel {
                 racquet2.move();
   
         }
- 
+        
+        private static void loadBackground(){
+        	ImageIcon ii = new ImageIcon("lastgifs/background.png");
+        	background = ii.getImage();
+        }
+        
         @Override
         public void paint(Graphics g) {
                 super.paint(g);
                 Graphics2D g2d = (Graphics2D) g;
                 g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                                 RenderingHints.VALUE_ANTIALIAS_ON);
+                g.drawImage(background,0, 0, null);
                 ball.paint(g2d);
                 racquet.paint(g2d);
                 racquet2.paint(g2d);
@@ -66,7 +77,6 @@ public class Game extends JPanel {
 				threadSpeed -= 1;
 			}
         }*/
-       
         public void gameOver() {
                 JOptionPane.showMessageDialog(this, "Game Over", "Game Over", JOptionPane.YES_NO_OPTION);
                 System.exit(ABORT);

@@ -12,7 +12,7 @@ public class Ball {
         private Game game;
         Image image = Toolkit.getDefaultToolkit().createImage("/home/melloboy89/Game/TableTennis/lastgifs/mini-angry-bird.gif");
 
-        double acceleration = 1;
+        
         public Ball(Game game) {
                 this.game= game;
         }
@@ -30,14 +30,14 @@ public class Ball {
                     ya = -1;
                 if (collision()){
                 	xa = -xa;
-                	if(x<12)
+                	if(xa<11)
                 		xa++;
                     x = 20;
                     
                 }
                 if (collision2()) {
                 	xa = -xa;
-                	if(x>-12)
+                	if(xa>-11)
                 		xa--;
 					x = 980 - image.getWidth(null);
 					
