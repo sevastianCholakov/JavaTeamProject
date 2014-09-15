@@ -3,6 +3,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -17,7 +18,8 @@ public class Game extends JPanel {
         private int getScore(){
                 return speed -1;
         }*/
- 
+        public static int count = 0;
+        public static int  threadSpeed = 15;
         public Game() {
                 addKeyListener(new KeyListener() {
                         @Override
@@ -59,6 +61,11 @@ public class Game extends JPanel {
                 racquet2.paint(g2d);
            
         }
+     /*   public void tick (){
+        	if (count % 2 == 0 && count!= 0) {
+				threadSpeed -= 1;
+			}
+        }*/
        
         public void gameOver() {
                 JOptionPane.showMessageDialog(this, "Game Over", "Game Over", JOptionPane.YES_NO_OPTION);
@@ -69,14 +76,16 @@ public class Game extends JPanel {
                 JFrame frame = new JFrame("Mini Tennis");
                 Game game = new Game();
                 frame.add(game);
-                frame.setSize(800,600);
+                frame.setSize(1820,915);
                 frame.setVisible(true);
+                frame.setResizable(false);
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-               
                 while (true) {
+                		//game.tick();
                         game.move();
                         game.repaint();
-                        Thread.sleep(10);
+                        Thread.sleep(threadSpeed);
+                        
                 }
         }
 }

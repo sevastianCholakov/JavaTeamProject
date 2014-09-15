@@ -8,9 +8,9 @@ public class Racquet {
         private static final int X = 0;
         private static final int HEIGHT = 120;
         private static final int WIDTH = 20;
-        int y = 340;
+        int y = 425;
         int ya = 0;
-        Image image = Toolkit.getDefaultToolkit().createImage("/home/melloboy89/Game/TableTennis/lastgifs/board.gif");
+        //Image image = Toolkit.getDefaultToolkit().createImage("/home/melloboy89/Game/TableTennis/lastgifs/board.gif");
         private Game game;
  
         public Racquet(Game game) {
@@ -18,12 +18,12 @@ public class Racquet {
         }
  
         public void move() {
-                if (y + ya > 0 && y + ya < game.getHeight() - 100)
+                if (y + ya > 0 && y + ya < game.getHeight() - 200)
                         y = y + ya;
         }
  
         public void paint(Graphics2D g) {
-                g.drawImage(image,X, y, null);
+        	g.fillRect(X, y, 20,200);
         }
  
         public void keyReleased(KeyEvent e) {
@@ -31,10 +31,10 @@ public class Racquet {
         }
  
         public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_UP)
-                        ya = -5;
-                if (e.getKeyCode() == KeyEvent.VK_DOWN)
-                        ya = 5;
+                if (e.getKeyCode() == KeyEvent.VK_W)
+                        ya = -20;
+                if (e.getKeyCode() == KeyEvent.VK_S)
+                        ya = 20;
         }
  
         public Rectangle getBounds() {

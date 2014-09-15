@@ -9,36 +9,40 @@ public class Ball {
         int y =100;
         int xa = -2;
         int ya = 2;
-        int count = 0;
         private Game game;
         Image image = Toolkit.getDefaultToolkit().createImage("/home/melloboy89/Game/TableTennis/lastgifs/mini-angry-bird.gif");
-        int speed = 3;
+        int speed = 4;
+        double acceleration = 1;
         public Ball(Game game) {
                 this.game= game;
         }
  
         void move() {
-                if (x + xa < 0)
-                        game.gameOver();
-                if (x + xa > game.getWidth() - image.getWidth(null))
-                        game.gameOver();
-                if (y + ya < 0)
-                        ya = speed;
-                if (y + ya > game.getHeight() - image.getWidth(null))
-                        ya = speed * (-1);
+             	
+				
+                if (x + xa <= 0)
+                    game.gameOver();
+                if (x + xa >= game.getWidth() - image.getWidth(null))
+                    game.gameOver();
+                if (y + ya <= 0)
+                    ya = speed;
+                if (y + ya >= game.getHeight() - image.getHeight(null))
+                    ya = speed * (-1);
                 if (collision()){
-                        xa = 1;
-                        x = 20;
-                        count ++;
-                        
+                    xa = (-1)*xa +2;
+                    x = 20;
+                    
                 }
                 if (collision2()) {
-					xa = -1;
-					x = 780 - image.getWidth(null);
-					count++;
+					xa = xa*(-1)-2;
+					x = 1800 - image.getWidth(null);
+					
 				}
+                
                 x = x + xa;
                 y = y + ya;
+                
+               
         }
  
         private boolean collision() {

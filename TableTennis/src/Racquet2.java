@@ -5,26 +5,26 @@ import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
  
 public class Racquet2 {
-        private static final int X = 780;
+        private static final int X = 1800;
         private static final int HEIGHT = 120;
         private static final int WIDTH = 20;
-        int y = 340;
+        int y = 425;
         int ya = 0;
         private Game game;	
-        Image image = Toolkit.getDefaultToolkit().createImage("/home/melloboy89/Game/TableTennis/lastgifs/board2.gif"
-        		+ "");
+        /*Image image = Toolkit.getDefaultToolkit().createImage("/home/melloboy89/Game/TableTennis/lastgifs/board2.gif"
+        		+ "");*/
  
         public Racquet2(Game game) {
                 this.game = game;
         }
  
         public void move() {
-                if (y + ya > 0 && y + ya < game.getHeight() - 100)
+                if (y + ya > 0 && y + ya < game.getHeight() - 200)
                         y = y + ya;
         }
  
         public void paint(Graphics2D g) {
-                g.drawImage(image,X, y, null);
+        	 g.fillRect(X, y, 20, 200);
         }
  
         public void keyReleased(KeyEvent e) {
@@ -32,10 +32,10 @@ public class Racquet2 {
         }
  
         public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_W)
-                        ya = -5;
-                if (e.getKeyCode() == KeyEvent.VK_S)
-                        ya = 5;
+                if (e.getKeyCode() == KeyEvent.VK_UP)
+                        ya = -20;
+                if (e.getKeyCode() == KeyEvent.VK_DOWN)
+                        ya = 20;
         }
  
         public Rectangle getBounds() {
