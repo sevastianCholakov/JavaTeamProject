@@ -5,7 +5,7 @@ import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
  
 public class Racquet2 {
-        private static final int X = 1800;
+        private static final int X = 980;
         private static final int HEIGHT = 120;
         private static final int WIDTH = 20;
         int y = 425;
@@ -19,12 +19,12 @@ public class Racquet2 {
         }
  
         public void move() {
-                if (y + ya > 0 && y + ya < game.getHeight() - 200)
+                if (y + ya > 0 && y + ya < game.getHeight() - 150)
                         y = y + ya;
         }
  
         public void paint(Graphics2D g) {
-        	 g.fillRect(X, y, 20, 200);
+        	 g.fillRect(X, y, 20, 150);
         }
  
         public void keyReleased(KeyEvent e) {

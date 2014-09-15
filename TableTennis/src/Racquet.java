@@ -18,12 +18,12 @@ public class Racquet {
         }
  
         public void move() {
-                if (y + ya > 0 && y + ya < game.getHeight() - 200)
+                if (y + ya > 0 && y + ya < game.getHeight() - 150)
                         y = y + ya;
         }
  
         public void paint(Graphics2D g) {
-        	g.fillRect(X, y, 20,200);
+        	g.fillRect(X, y, 20,150);
         }
  
         public void keyReleased(KeyEvent e) {

@@ -35,7 +35,7 @@ public class Ball {
                 }
                 if (collision2()) {
 					xa = xa*(-1)-2;
-					x = 1800 - image.getWidth(null);
+					x = 980 - image.getWidth(null);
 					
 				}
                 
