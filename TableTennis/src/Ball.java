@@ -7,11 +7,11 @@ public class Ball {
         private static final int DIAMETER = 30;
         int x = 700;
         int y =100;
-        int xa = -2;
-        int ya = 2;
+        int xa = -3;
+        int ya = 1;
         private Game game;
         Image image = Toolkit.getDefaultToolkit().createImage("/home/melloboy89/Game/TableTennis/lastgifs/mini-angry-bird.gif");
-        int speed = 4;
+
         double acceleration = 1;
         public Ball(Game game) {
                 this.game= game;
@@ -20,21 +20,23 @@ public class Ball {
         void move() {
              	
 				
-                if (x + xa <= 0)
+                if (x + xa < 0)
                     game.gameOver();
-                if (x + xa >= game.getWidth() - image.getWidth(null))
+                if (x + xa > game.getWidth() - image.getWidth(null))
                     game.gameOver();
-                if (y + ya <= 0)
-                    ya = speed;
-                if (y + ya >= game.getHeight() - image.getHeight(null))
-                    ya = speed * (-1);
+                if (y + ya < 0)
+                    ya = 1;
+                if (y + ya > game.getHeight() - image.getHeight(null))
+                    ya = -1;
                 if (collision()){
-                    xa = (-1)*xa +2;
+                	xa = -xa;
+                	xa++;
                     x = 20;
                     
                 }
                 if (collision2()) {
-					xa = xa*(-1)-2;
+                	xa = -xa;
+                	xa--;
 					x = 980 - image.getWidth(null);
 					
 				}
