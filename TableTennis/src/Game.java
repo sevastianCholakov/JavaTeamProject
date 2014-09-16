@@ -1,8 +1,8 @@
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
-import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -23,7 +23,7 @@ public class Game extends JPanel {
                 return speed -1;
         }*/
         public static int count = 0;
-        public static int  threadSpeed = 7;
+        public static int  threadSpeed = 10;
         public Game() {
                 addKeyListener(new KeyListener() {
                         @Override
@@ -67,16 +67,13 @@ public class Game extends JPanel {
                 g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                                 RenderingHints.VALUE_ANTIALIAS_ON);
                 g.drawImage(background,0, 0, null);
+                g.setColor(Color.BLUE);
                 ball.paint(g2d);
                 racquet.paint(g2d);
                 racquet2.paint(g2d);
            
         }
-     /*   public void tick (){
-        	if (count % 2 == 0 && count!= 0) {
-				threadSpeed -= 1;
-			}
-        }*/
+
         public void gameOver() {
                 JOptionPane.showMessageDialog(this, "Game Over", "Game Over", JOptionPane.YES_NO_OPTION);
                 System.exit(ABORT);

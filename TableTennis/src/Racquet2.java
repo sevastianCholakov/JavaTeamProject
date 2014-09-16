@@ -1,9 +1,8 @@
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.Rectangle;
-import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
- 
+
+
 public class Racquet2 {
         private static final int X = 980;
         private static final int HEIGHT = 150;
@@ -11,16 +10,15 @@ public class Racquet2 {
         int y = 275;
         int ya = 0;
         private Game game;	
-        /*Image image = Toolkit.getDefaultToolkit().createImage("/home/melloboy89/Game/TableTennis/lastgifs/board2.gif"
-        		+ "");*/
  
         public Racquet2(Game game) {
                 this.game = game;
         }
  
         public void move() {
-                if (y + ya > 0 && y + ya < game.getHeight() - HEIGHT)
+                if (y + ya > 0 && y + ya < game.getHeight() - HEIGHT){
                         y = y + ya;
+                }
         }
  
         public void paint(Graphics2D g) {
@@ -32,11 +30,13 @@ public class Racquet2 {
         }
  
         public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_UP)
+        	if (e.getKeyCode() == KeyEvent.VK_UP)
                         ya = -10;
                 if (e.getKeyCode() == KeyEvent.VK_DOWN)
                         ya = 10;
+            
         }
+
  
         public Rectangle getBounds() {
                 return new Rectangle(X, y, WIDTH, HEIGHT);
