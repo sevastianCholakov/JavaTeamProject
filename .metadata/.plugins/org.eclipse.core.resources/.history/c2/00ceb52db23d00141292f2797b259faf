@@ -17,14 +17,14 @@ public class RacquetAI extends Rectangle {
 		setBounds(0,375,width,height);
 	}
 	public void tick(){
-		
-		if (SinglePlayerState.ball.y<y&& y>=0) { //ballY<aiY
-			y-=1;
-		}
-		if (SinglePlayerState.ball.y>y && y  < GamePanel.HEIGHT - height) { //ballY < aiY
-			y+=1;
+		if (y >0 && y  <GamePanel.HEIGHT - height) {
+			if (SinglePlayerState.ball.y<y) { //ballY<aiY
+				y-=1;
+			}
+			if (SinglePlayerState.ball.y>y) { //ballY < aiY
+				y+=1;
 			
-		
+		}
 		
 	}
 	}
