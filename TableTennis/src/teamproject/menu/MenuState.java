@@ -31,13 +31,13 @@ public class MenuState extends GameState {
 		}
 	}
 	public void keyPressed(int k){
-		if (k == KeyEvent.VK_W) {
+		if (k == KeyEvent.VK_S) {
 			currentSelection++;
 			if(currentSelection >= options.length){
 				currentSelection = 0;
 			}
 		}
-		else if (k == KeyEvent.VK_S) {
+		else if (k == KeyEvent.VK_W) {
 			currentSelection --;
 			if (currentSelection < 0) {
 				currentSelection = options.length - 1;
@@ -45,7 +45,7 @@ public class MenuState extends GameState {
 		}
 		if (k == KeyEvent.VK_ENTER) {
 			if (currentSelection== 0) {
-				//single player
+				gsm.states.push(new SinglePlayerState(gsm));
 			}
 			else if (currentSelection==1) {
 				//multi player
