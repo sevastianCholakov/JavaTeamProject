@@ -5,7 +5,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 public class MenuState extends GameState {
-	private String[] options = {"SinglePlayer","MultiPlayer","Quit"};
+	private String[] options = {"SinglePlayer","MultiPlayer","Block mode","Quit"};
 	private int currentSelection = 0;
 	
 	public MenuState(GameStateManager gsm){
@@ -44,13 +44,16 @@ public class MenuState extends GameState {
 			}
 		}
 		if (k == KeyEvent.VK_ENTER) {
-			if (currentSelection== 0) {
+			if (currentSelection == 0) {
 				gsm.states.push(new SinglePlayerState(gsm));
 			}
-			else if (currentSelection==1) {
+			else if (currentSelection == 1) {
 				gsm.states.push(new MultiPlayerState(gsm));
 			}
 			else if (currentSelection == 2) {
+				gsm.states.push(new BlockModeState(gsm));
+			}
+			else if (currentSelection == 3) {
 				System.exit(0);
 			}
 		}

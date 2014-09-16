@@ -1,10 +1,12 @@
 package teamproject.menu;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 
@@ -36,7 +38,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		thread.start();
 	}
 	
-	
+	public static void gameOver() {
+		Component popupMenu = null;
+		JOptionPane.showMessageDialog(popupMenu, "Game Over", "Game Over", JOptionPane.YES_NO_OPTION);
+		System.exit(ABORT);
+	}
 	
 	public void keyTyped(KeyEvent e) {
 		
