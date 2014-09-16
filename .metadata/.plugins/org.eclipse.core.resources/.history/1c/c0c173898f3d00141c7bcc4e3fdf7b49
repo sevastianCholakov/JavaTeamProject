@@ -1,0 +1,43 @@
+package teamproject.menu;
+
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Rectangle;
+import java.awt.event.KeyEvent;
+
+public class Racquet extends Rectangle {
+	private boolean up = false, down = false;
+
+	private int x,y;
+	private int width,height;
+     
+	
+	public Racquet(int width,int height){
+		setBounds(0,275,width,height);
+	}
+	public void tick(){
+		if(up){
+			y--;
+		}
+		if (down) {
+			y++;
+		}
+	}
+	
+	public void draw(Graphics g){
+		g.setColor(Color.BLUE);
+		g.fillRect(x,y,width,height);
+	}
+	public void keyPressed(int k){
+		if (k == KeyEvent.VK_W)
+            up = true;
+		if (k == KeyEvent.VK_S)
+            down = true;
+	}
+	public void keyReleased(int k){
+		if (k == KeyEvent.VK_W)
+            up = false;
+		if (k == KeyEvent.VK_S)
+            down = false;
+	}
+}

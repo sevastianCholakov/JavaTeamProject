@@ -7,8 +7,8 @@ import java.awt.event.KeyEvent;
 
 public class Racquet extends Rectangle {
 	private int ya=5;
-	private int x = 0;
-	private int y = 275;
+	public int x = 0;
+	public int y = 275;
 	
     
 	

@@ -7,6 +7,7 @@ import java.awt.Toolkit;
 
 public class SinglePlayerState extends GameState {
 	public static Racquet racquet;
+	public static RacquetAI racquetAI;
 	public static BallS ball;
 	Image background = Toolkit.getDefaultToolkit().createImage("lastgifs/background.png");
 	public SinglePlayerState(GameStateManager gsm){
@@ -16,13 +17,16 @@ public class SinglePlayerState extends GameState {
 	
 	public void init() {
 		racquet = new Racquet(20,150);
+		racquetAI = new RacquetAI(20,150);
 		ball = new BallS();
+		
 		
 	}
 
 	
 	public void tick() {
 		racquet.tick();
+		racquetAI.tick();
 		ball.tick();
 		
 	}
@@ -32,6 +36,7 @@ public class SinglePlayerState extends GameState {
 		g.drawImage(background,0, 0, null);
 		ball.draw(g);
 		racquet.draw(g);
+		racquetAI.draw(g);
 		
 	}
 
@@ -39,6 +44,7 @@ public class SinglePlayerState extends GameState {
 
 	public void keyPressed(int k) {
 		racquet.keyPressed(k);
+		
 	}
 
 
