@@ -5,16 +5,16 @@ import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
 
-public class BallM extends Rectangle {
+public class BallM2 extends Rectangle {
 	private static final int DIAMETER = 30;
 	int x = 700;
 	int y = 100;
-	int xa = -4;
-	int ya = 2;
+	int xa = -3;
+	int ya = 0;
 	Image image = Toolkit.getDefaultToolkit().createImage(
 			"lastgifs/mini-angry-bird.gif");
 
-	public BallM() {
+	public BallM2() {
 		setBounds(980, 375, image.getWidth(null), image.getHeight(null));
 	}
 

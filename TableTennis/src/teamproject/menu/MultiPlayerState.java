@@ -1,5 +1,6 @@
 package teamproject.menu;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -9,6 +10,9 @@ public class MultiPlayerState extends GameState {
 	public static Racquet racquet;
 	public static Racquet2 racquet2;
 	public static BallM ball;
+	public static int p1Score, p2Score;
+	//public static int counter;
+	
 	Image background = Toolkit.getDefaultToolkit().createImage("lastgifs/background.png");
 	public MultiPlayerState(GameStateManager gsm){
 		super(gsm);
@@ -36,6 +40,9 @@ public class MultiPlayerState extends GameState {
 		ball.draw(g);
 		racquet.draw(g);
 		racquet2.draw(g);
+		g.setColor(Color.BLUE); 
+		g.drawString("Player 1 : " + p1Score, 0, 10);
+		g.drawString("Player 2 : " + p2Score, 910, 10);
 		
 	}
 	

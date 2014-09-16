@@ -1,5 +1,6 @@
 package teamproject.menu;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -9,6 +10,8 @@ public class SinglePlayerState extends GameState {
 	public static Racquet racquet;
 	public static RacquetAI racquetAI;
 	public static BallS ball;
+	public static int p1Score, compScore;
+	
 	Image background = Toolkit.getDefaultToolkit().createImage("lastgifs/background.png");
 	public SinglePlayerState(GameStateManager gsm){
 		super(gsm);
@@ -37,6 +40,9 @@ public class SinglePlayerState extends GameState {
 		ball.draw(g);
 		racquet.draw(g);
 		racquetAI.draw(g);
+		g.setColor(Color.BLUE); 
+		g.drawString("Player : " + p1Score, 0, 10);
+		g.drawString("Computer : " + compScore, 910, 10);
 		
 	}
 
