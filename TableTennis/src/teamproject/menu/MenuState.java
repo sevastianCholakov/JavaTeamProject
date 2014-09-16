@@ -1,8 +1,8 @@
 package teamproject.menu;
 import java.awt.Color;
-
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 public class MenuState extends GameState {
 	private String[] options = {"SinglePlayer","MultiPlayer","Quit"};
@@ -31,13 +31,13 @@ public class MenuState extends GameState {
 		}
 	}
 	public void keyPressed(int k){
-		if (k == KeyEvent.VK_S) {
+		if (k == KeyEvent.VK_S || k == KeyEvent.VK_DOWN) {
 			currentSelection++;
 			if(currentSelection >= options.length){
 				currentSelection = 0;
 			}
 		}
-		else if (k == KeyEvent.VK_W) {
+		else if (k == KeyEvent.VK_W || k == KeyEvent.VK_UP) {
 			currentSelection --;
 			if (currentSelection < 0) {
 				currentSelection = options.length - 1;
@@ -48,7 +48,7 @@ public class MenuState extends GameState {
 				gsm.states.push(new SinglePlayerState(gsm));
 			}
 			else if (currentSelection==1) {
-				//multi player
+				gsm.states.push(new MultiPlayerState(gsm));
 			}
 			else if (currentSelection == 2) {
 				System.exit(0);
@@ -58,4 +58,6 @@ public class MenuState extends GameState {
 	public void keyReleased(int k){
 	
 	}
+
+
 }

@@ -8,7 +8,7 @@ public class Game {
 
 	public static void main(String[] args) {
 		
-		JFrame frame = new JFrame("Platformer");
+		JFrame frame = new JFrame("AngryTennis");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
 		frame.setLayout(new BorderLayout());

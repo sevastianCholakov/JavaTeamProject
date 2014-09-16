@@ -1,6 +1,7 @@
 package teamproject.menu;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 
 public abstract class GameState {
@@ -12,6 +13,7 @@ public abstract class GameState {
 	public abstract void init();
 	public abstract void tick();
 	public abstract void draw(Graphics g);
+
 	public abstract void keyPressed(int k);
 	public abstract void keyReleased(int k);
 }

@@ -1,6 +1,7 @@
 package teamproject.menu;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.util.Stack;
 
 
@@ -16,6 +17,7 @@ public class GameStateManager {
 	public void draw(Graphics g){
 		states.peek().draw(g);
 	}
+
 	public void keyPressed(int k){
 		states.peek().keyPressed(k);
 	}

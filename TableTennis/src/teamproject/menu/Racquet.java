@@ -7,9 +7,10 @@ import java.awt.event.KeyEvent;
 
 public class Racquet extends Rectangle {
 	private int ya=5;
-	private int x,y;
+	private int x = 0;
+	private int y = 275;
 	
-     
+    
 	
 	public Racquet(int width,int height){
 		setBounds(0,375,width,height);
@@ -32,5 +33,9 @@ public class Racquet extends Rectangle {
 	}
 	public void keyReleased(int k){
 		ya = 0;
+	}
+	
+	public Rectangle getBounds() {
+        return new Rectangle(x, y, width, height);
 	}
 }

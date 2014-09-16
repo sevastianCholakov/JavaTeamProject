@@ -1,32 +1,34 @@
-import java.awt.Graphics2D;
+package teamproject.menu;
+
+import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
+
  
-public class Ball {
+public class BallM extends Rectangle {
         private static final int DIAMETER = 30;
         int x = 700;
         int y =100;
         int xa = -3;
         int ya = 0;
-        private Game game;
-        Image image = Toolkit.getDefaultToolkit().createImage("/home/melloboy89/Game/TableTennis/lastgifs/mini-angry-bird.gif");
+        Image image = Toolkit.getDefaultToolkit().createImage("lastgifs/mini-angry-bird.gif");
 
+    	public BallM(){
+    		setBounds(980,375,image.getWidth(null),image.getHeight(null));
+    	}
         
-        public Ball(Game game) {
-                this.game= game;
-        }
- 
-        void move() {
+
+		void tick() {
              	
 				
                 if (x + xa < 0)
-                    game.gameOver();
-                if (x + xa > game.getWidth() - image.getWidth(null))
-                    game.gameOver();
+                    xa = 3;
+                if (x + xa > GamePanel.WIDTH - image.getWidth(null))
+                    xa = -3;
                 if (y + ya < 0)
                     ya = 1;
-                if (y + ya > game.getHeight() - image.getHeight(null))
+                if (y + ya > GamePanel.HEIGHT  - image.getHeight(null))
                     ya = -1;
                 if (collision()){
                 	xa = -xa;
@@ -37,8 +39,9 @@ public class Ball {
                 }
                 if (collision2()) {
                 	xa = -xa;
-                	if(xa>-11)
+                	if(xa>-11){
                 		xa--;
+                	}
 					x = 980 - image.getWidth(null);
 					
 				}
@@ -50,13 +53,13 @@ public class Ball {
         }
  
         private boolean collision() {
-        	
-        	return game.racquet.getBounds().intersects(getBounds());        }
-        
-        private boolean collision2(){
-        	return game.racquet2.getBounds().intersects(getBounds());
+        	return MultiPlayerState.racquet.getBounds().intersects(getBounds());
         }
-        public void paint(Graphics2D g) {
+		
+        private boolean collision2(){
+        	return MultiPlayerState.racquet2.getBounds().intersects(getBounds());
+        }
+        public void draw(Graphics g) {
                 g.drawImage(image,x, y, null);
         }
        
