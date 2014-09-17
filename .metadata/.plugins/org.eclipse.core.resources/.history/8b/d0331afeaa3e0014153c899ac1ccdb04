@@ -1,0 +1,367 @@
+import java.io.*;
+import java.util.Date;
+import javax.microedition.lcdui.*;
+import javax.microedition.midlet.MIDlet;
+import javax.microedition.midlet.MIDletStateChangeException;
+import javax.microedition.rms.RecordStore;
+import javax.microedition.rms.RecordStoreException;
+
+public class MyMidlet extends MIDlet implements CommandListener {
+
+  List mainForm;
+  Form settingsForm;
+  Form helpForm;
+  Alert exitAlert;
+  MyCanvas gameCanvas;
+
+  Command comExit;
+  Command comSelect;
+  Command comSave;
+  Command comBack;
+
+  // options
+  boolean soundOn;
+  
+  // high scores
+  Score[] scores;
+  
+  Form newHighScoreForm;
+  TextField highScoreName;
+  StringItem highScoreValue;
+  StringItem highScorePosition;
+  Command highScoreSave;
+  Form highScoreForm;
+  ChoiceGroup soundChoice;
+
+  // entry point for the application, it's invoked when the application is
+  // started
+  protected void startApp() throws MIDletStateChangeException {
+    initOptions();
+    display(initMainForm());
+  }
+
+  // method is invoked when the application needs to be destroyed
+  protected void destroyApp(boolean arg0) throws MIDletStateChangeException {
+    exit();
+  }
+
+  // method is invoked when the application needs to be paused because external
+  // events (eg. incoming call)
+  protected void pauseApp() {
+
+  }
+
+  // listens for user actions
+  public void commandAction(Command cmd, Displayable display) {
+    // check what screen is being displayed
+    if (display == mainForm) {
+      // check what command was used
+      if (cmd == comSelect) {
+        switch (mainForm.getSelectedIndex()) {
+        case (0):
+          display(initGameCanvas());
+          break;
+        case (1):
+          display(initSettingsForm());
+          break;
+        case (2):
+          // init Scores Form
+          display(initScoreForm());
+          break;
+        case (3):
+          display(initHelpForm());
+          break;
+        case (4):
+          exit();
+          break;
+        }
+      }
+    } else if (display == highScoreForm) {
+      if (cmd == comBack) {
+        display(initMainForm());
+      }
+    } else if (display == settingsForm) {
+      if (cmd == comBack) {
+        soundOn = soundChoice.getSelectedIndex() == 0;
+        display(initMainForm());
+      }
+    } else if (display == helpForm) {
+      if (cmd == comBack) {
+        display(initMainForm());
+      }
+    } else if (display == gameCanvas) {
+      display(initMainForm());
+    } else if (display == newHighScoreForm) {
+      if (cmd == highScoreSave) {
+        int pos = Integer.parseInt(highScorePosition.getText());
+        scores[pos].name = highScoreName.getString();
+        scores[pos].value = Integer.parseInt(highScoreValue.getText());
+        scores[pos].when = new Date();
+        saveData();
+        display(initScoreForm());
+      }
+    }
+  }
+
+  public Displayable initScoreForm() {
+    if (highScoreForm == null) {
+      highScoreForm = new Form("High Scores");
+      highScoreForm.setCommandListener(this);
+      highScoreForm.addCommand(initBackCommand());
+    }
+    
+    highScoreForm.deleteAll();
+    
+    for (int i = 0; i < scores.length; i++) {
+      highScoreForm.append((i + 1) + "." + scores[i].name + ":"
+          + scores[i].value + "\n");
+    }
+    
+    return highScoreForm;
+  }
+
+  /**
+   * Exits the application
+   */
+  public void exit() {
+    saveData();
+    notifyDestroyed();
+  }
+
+  /**
+   * Displays a screen
+   */
+  public void display(Displayable display) {
+    // shows mainForm in the screen.
+    Display.getDisplay(this).setCurrent(display);
+  }
+
+  public void display(Alert alert, Displayable next) {
+    // shows mainForm in the screen.
+    Display.getDisplay(this).setCurrent(alert, next);
+  }
+
+  public Command initBackCommand() {
+    if (comBack == null) {
+      comBack = new Command("Back", Command.BACK, 1);
+    }
+    return comBack;
+  }
+
+  /**
+   * Creates main form
+   */
+  public Screen initMainForm() {
+    if (mainForm == null) {        
+      // creates a implicit List where the current element is the selected one
+      mainForm = new List("Menu", List.IMPLICIT);
+      
+      // append list options
+      mainForm.append("New Game", null);
+      mainForm.append("Options", null);
+      mainForm.append("Scores", null);
+      mainForm.append("Help", null);
+      mainForm.append("Exit", null);
+
+      // adds a select Command
+      comSelect = new Command("Select", Command.ITEM, 1);
+      mainForm.setSelectCommand(comSelect);
+
+      // adds a listener to the form
+      mainForm.setCommandListener(this);
+    }
+    
+    return mainForm;
+  }
+
+  /**
+   * Creates the settings form and returns it.
+   * 
+   * @return settings form
+   */
+  public Screen initSettingsForm() {
+    // check if it's already created
+    if (settingsForm == null) {
+      settingsForm = new Form("Settings");
+      settingsForm.addCommand(initBackCommand());
+      settingsForm.setCommandListener(this);
+      
+      soundChoice = new ChoiceGroup("Sound", List.EXCLUSIVE);
+      soundChoice.append("On", null);
+      soundChoice.append("Off", null);
+      settingsForm.append(soundChoice);
+    }
+
+    return settingsForm;
+  }
+
+  /**
+   * Creates the help form
+   * 
+   * @return help form
+   */
+  public Screen initHelpForm() {
+    if (helpForm == null) {
+      helpForm = new Form("Help");
+      helpForm
+          .append("Use cursors to move your pad, don't let the ball go by you, hit all the bricks!");
+      helpForm.setCommandListener(this);
+      helpForm.addCommand(initBackCommand());
+    }
+    
+    return helpForm;
+  }
+
+  public Screen initNewHighScore(int score, int pos) {
+    if (newHighScoreForm == null) {
+      newHighScoreForm = new Form("New High Score");
+      highScoreName = new TextField("Name", "", 20, TextField.ANY);
+      highScoreValue = new StringItem("Score", Integer.toString(score));
+      highScorePosition = new StringItem("Position", Integer.toString(pos));
+      highScoreSave = new Command("Save", Command.OK, 1);
+      newHighScoreForm.setCommandListener(this);
+      newHighScoreForm.addCommand(highScoreSave);
+      newHighScoreForm.append(highScoreName);
+      newHighScoreForm.append(highScoreValue);
+      newHighScoreForm.append(highScorePosition);
+    }
+    
+    highScoreValue.setText(Integer.toString(score));
+    highScorePosition.setText(Integer.toString(pos));
+    
+    return newHighScoreForm;
+  }
+
+  public Displayable initGameCanvas() {
+    if (gameCanvas == null) {
+      gameCanvas = new MyCanvas(false, this);
+      gameCanvas.addCommand(initBackCommand());
+      gameCanvas.setCommandListener(this);
+    }
+    
+    gameCanvas.start();
+    
+    return gameCanvas;
+  }
+
+  /**
+   * Finish the game. Checks the number of lifes, score and time remaining
+   * 
+   * @param lifes
+   * @param score
+   * @param time
+   */
+  public void endGame(int lifes, int score, int time) {
+    Screen nextScreen = initMainForm();
+    String message;
+    
+    if (lifes == 0) {
+      message = "Game Over!!";
+    } else {
+      message = "You Win!";
+    }
+    
+    int pos = isHighScore(score);
+    
+    if (pos != -1) {
+      nextScreen = initNewHighScore(score, pos);
+    }
+
+    display(new Alert(message), nextScreen);
+  }
+
+  public int isHighScore(int score) {
+    for (int i = 0; i < scores.length; i++) {
+      if (score > scores[i].value) {
+        return i;
+      }
+    }
+    
+    return -1;
+  }
+
+  public void initOptions() {
+    soundOn = true;
+    if (scores == null) {
+      scores = new Score[10];
+      for (int i = 0; i < scores.length; i++) {
+        scores[i] = new Score(0, "Empty", new Date());
+      }
+    }
+    
+    loadData();
+  }
+
+  /**
+   *  Stores settings and high scores data in an record store
+   */
+  public void saveData() {
+    try {
+      // open records store options
+      RecordStore options = RecordStore.openRecordStore("options", true);
+      byte[] data = saveOptions();
+      // check if record store not empty
+      if (options.getNumRecords() != 0) {
+        // update the settings
+        options.setRecord(1, data, 0, data.length);
+      } else {
+        // adds the settings
+        options.addRecord(data, 0, data.length);
+      }
+      
+      // closes the record store
+      options.closeRecordStore();
+    } catch (RecordStoreException ex) {
+    }
+  }
+
+  public void loadData() {
+    try {
+      RecordStore options = RecordStore.openRecordStore("options", true);
+      
+      // record store not empty
+      if (options.getNumRecords() != 0) {
+        // read the data
+        loadOptions(options.getRecord(1));
+      }
+      options.closeRecordStore();
+    } catch (RecordStoreException ex) {
+    }
+  }
+
+  public byte[] saveOptions() {
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    DataOutputStream dos = new DataOutputStream(baos);
+    try {
+      dos.writeBoolean(soundOn);
+      for (int i = 0; i < scores.length; i++) {
+        dos.writeInt(scores[i].value);
+        dos.writeUTF(scores[i].name);
+        dos.writeLong(scores[i].when.getTime());
+      }
+      dos.flush();
+    } catch (IOException ex) {
+
+    }
+    
+    return baos.toByteArray();
+  }
+
+  public void loadOptions(byte[] data) {
+    ByteArrayInputStream bais = new ByteArrayInputStream(data);
+    DataInputStream dis = new DataInputStream(bais);
+    try {
+      soundOn = dis.readBoolean();
+      for (int i = 0; i < scores.length; i++) {
+        int value = dis.readInt();
+        String name = dis.readUTF();
+        Date date = new Date(dis.readLong());
+        scores[i] = new Score(value, name, date);
+      }
+      dis.close();
+    } catch (IOException ex) {
+
+    }
+  }
+
+}

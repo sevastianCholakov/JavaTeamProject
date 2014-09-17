@@ -1,0 +1,41 @@
+import java.io.IOException;
+import javax.microedition.lcdui.Graphics;
+import javax.microedition.lcdui.Image;
+import javax.microedition.lcdui.game.Sprite;
+
+public class Pad extends Entity{  
+  int minLimit = 0;
+  int maxLimit = 1;
+  Image image = null;
+  
+  public Pad(Image image) {
+    this.width = image.getWidth();
+    this.height = image.getHeight();
+    sprite = new Sprite(image);
+    
+    try {
+      this.image = Image.createImage("/pad.png");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }    
+  }
+  
+  public void paint(Graphics g) {
+    g.drawImage(image, x,y, Graphics.TOP | Graphics.LEFT);
+  }
+
+  public void update() {
+    // change x position according the speed
+    x += speedX;
+    
+    // check if world bounds are reached
+    if (x < minLimit) {
+      x = minLimit;
+    }
+    
+    if (x+width > maxLimit){
+      x = maxLimit - width;
+    } 
+  }
+
+}

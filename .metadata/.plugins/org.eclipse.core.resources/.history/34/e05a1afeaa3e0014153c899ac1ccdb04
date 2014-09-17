@@ -1,0 +1,27 @@
+import javax.microedition.lcdui.Graphics;
+import javax.microedition.lcdui.Image;
+import javax.microedition.lcdui.game.Sprite;
+
+public class Ball extends Entity {
+  public int radius = 2;
+
+  public Ball(Image image) {
+    sprite = new Sprite(image);
+    width = image.getWidth();
+    height = image.getHeight();
+  }
+  
+  public void paint(Graphics g) {
+    sprite.setPosition(x, y);    
+    sprite.paint(g);
+  }
+
+  public void update() {
+    // update position
+    oldX = x;
+    oldY = y;
+    x += speedX;
+    y += speedY;
+  }
+
+}

@@ -1,0 +1,30 @@
+import javax.microedition.lcdui.Graphics;
+import javax.microedition.lcdui.Image;
+import javax.microedition.lcdui.game.Sprite;
+
+public class Brick extends Entity {
+  boolean active = true;
+  int color; 
+  
+  public Brick(Image image, int numFrames, int frameSelected) {
+    sprite = new Sprite(image, image.getWidth() / numFrames, image.getHeight());
+    // set frame
+    sprite.setFrame(frameSelected);
+    
+    // get size for collision detection
+    width = sprite.getWidth();
+    height = sprite.getHeight();
+  }
+  
+  public void paint(Graphics g) {
+    if (active) {  
+      sprite.setPosition(x, y);
+      sprite.paint(g);
+    }
+  }
+
+  public void update() {
+
+  }
+
+}

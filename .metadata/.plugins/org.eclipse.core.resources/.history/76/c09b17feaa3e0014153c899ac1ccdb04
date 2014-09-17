@@ -1,0 +1,25 @@
+import java.io.IOException;
+import java.io.InputStream;
+import javax.microedition.lcdui.Image;
+
+public class Util {
+
+  static public Image loadImage(String file) {
+    Image result = null;
+    InputStream is = Object.class.getResourceAsStream(file);
+    
+    try {
+      result = Image.createImage(is);
+    } catch (IOException e) {      
+      e.printStackTrace();
+    }    
+    return result;
+  }
+   
+  static int setColor(int r, int g, int b) {
+    int result = 0;
+    result |= r << 16;    result |= g << 8;
+    result |= b;
+    return result;
+  }
+}

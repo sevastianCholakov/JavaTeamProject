@@ -1,0 +1,106 @@
+import javax.microedition.lcdui.Graphics;
+import javax.microedition.lcdui.game.Sprite;
+
+public abstract  class Entity {
+  
+  public int oldX;
+  public int oldY;
+  
+  // x position of entity
+  public int x;
+  
+  // y position of entity
+  public int y;
+  
+  public int width;
+  public int height;
+  public int speedX;
+  public int speedY;
+  public Sprite sprite;
+  
+  // collision type
+  static byte COLLISION_NONE = 0;
+  static byte COLLISION_LEFT = 1;
+  static byte COLLISION_RIGHT = 2;
+  static byte COLLISION_UP = 4;
+  static byte COLLISION_DOWN = 8;
+
+  /**
+   * Method responsible for updating the state of the entity
+   */
+  abstract public void update();
+
+  /**
+   * Paints the entity in the Graphics g.
+   * @param g
+   */
+  abstract public void paint(Graphics g);
+    
+  /**
+   * Check if there is collision with another object.
+   * The collision method checks what kind of collision happened:
+   * COLLISION_NONE - No collision happened.
+   * @param other
+   * @return a collision mask, that tells what kind of collision happened
+   */
+  public byte collided(Entity other) {
+    byte collision = COLLISION_NONE;
+    if ((this.x < (other.x + other.width)) && 
+        (this.x + width > other.x) &&
+        (this.y < (other.y + other.height)) && 
+        (this.y + height > other.y)
+       )
+    {
+      // check if collision resulted from x movement
+      if ((this.x < (other.x + other.width)) && 
+          (this.x + width > other.x) &&
+          (this.oldY < (other.y + other.height)) && 
+          (this.oldY + height > other.y)
+         )
+      {
+        if (oldX < x) {
+          collision |= COLLISION_RIGHT;
+        } else {
+          collision |= COLLISION_LEFT;
+        }
+      }
+      //check if collision resulted from y movement
+      if ((this.oldX < (other.x + other.width)) && 
+          (this.oldX + width > other.x) &&
+          (this.y < (other.y + other.height)) && 
+          (this.y + height > other.y)
+         )
+      {
+        if (oldY < y) {
+          collision |= COLLISION_DOWN;
+        } else {
+          collision |= COLLISION_UP;
+        }
+      }
+      // check if any collision was detected
+      if (collision == COLLISION_NONE){
+        // collision resulted from both movements
+        if (oldX < x) {
+          collision |= COLLISION_RIGHT;
+        } else if (oldX > x) {
+          collision |= COLLISION_LEFT;
+        }
+        if (oldY < y) {
+          collision |= COLLISION_DOWN;
+        } else if (oldY > y) {
+          collision |= COLLISION_UP;
+        }
+      }
+        
+    }
+    return collision;
+  }
+  
+  boolean collidedHorizontal(byte collision) {
+    return (collision & (COLLISION_LEFT|COLLISION_RIGHT)) > 0 ;
+  }
+  
+  boolean collidedVertical(byte collision) {
+    return (collision & (COLLISION_UP|COLLISION_DOWN)) > 0 ;
+  }
+}

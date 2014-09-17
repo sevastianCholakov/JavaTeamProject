@@ -1,0 +1,13 @@
+import java.util.Date;
+
+public class Score {
+  public int value;
+  public String name;
+  public Date when;
+  
+  public Score(int value, String name, Date when) {
+    this.value = value;
+    this.name = name;
+    this.when = when;
+  }
+}

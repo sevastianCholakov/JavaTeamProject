@@ -1,0 +1,281 @@
+import java.io.IOException;
+import java.util.Vector;
+import javax.microedition.lcdui.Graphics;
+import javax.microedition.lcdui.Image;
+import javax.microedition.lcdui.game.GameCanvas;
+
+public class MyCanvas extends GameCanvas implements Runnable{
+  public static int BALL_SPEED = 1;
+  public static int BRICK_SCORE = 10;
+  public static int MAX_LIFES = 3;
+  public static int MAX_TIME = 3;
+  public static final int MAX_BRICKS = 5;
+
+  MyMidlet midlet;
+
+  Pad pad;
+  Ball ball;
+  Vector bricks;
+  
+  int score;
+  int lifes;
+  int time;
+  int bricksHit;  
+  int wallMinX = 0;
+  int wallMaxX = 0;
+  int wallMinY = 0;
+  int wallMaxY = 0;
+  
+  int width;
+  int height;
+  boolean run;
+  int speed;
+
+  protected MyCanvas(boolean suppressKeyEvents, MyMidlet midlet) {
+    super(suppressKeyEvents);
+    run = true;
+    this.midlet = midlet;
+  }
+
+  // start thread
+  public void start() {
+    run = true;
+    Thread t = new Thread(this);
+    t.start();
+  }
+  
+  // stop thread
+  public void stop() {
+    run = false;
+  }
+     
+  public void init(){    
+    // reset ball and pad speed
+    speed = BALL_SPEED;
+    
+    // resets lifes
+    lifes = MAX_LIFES;
+    
+    // resets score
+    score = 0;
+    
+    // resets time
+    time = MAX_TIME; 
+    
+    // bricks hit
+    bricksHit = 0;
+    
+    // create a pad
+    try {
+      pad = new Pad(Image.createImage("/pad.png"));
+    } catch (IOException e1) {
+      e1.printStackTrace();
+    }
+    
+    pad.x = (this.getWidth() - pad.width) / 2;
+    pad.y = this.getHeight() - (2 * pad.height);
+    pad.maxLimit = getWidth();
+    pad.minLimit = 0;
+
+    // create ball
+    try {
+      ball = new Ball(Image.createImage("/ball.png"));
+    } catch (IOException e) {      
+      e.printStackTrace();
+    }
+    
+    ball.x = getWidth() / 2;
+    ball.y = getHeight() / 2;
+    ball.speedX = speed;
+    ball.speedY = speed;
+    
+    // set collision limits
+    wallMinX = 0;
+    wallMaxX = getWidth();    
+    wallMinY = 0;
+    
+    // to allow ball get out of screen
+    wallMaxY = getHeight() + 4 * ball.radius;
+    
+    // create bricks
+    Image bricksFrames = null;
+    
+    try {
+      bricksFrames = Image.createImage("/bricks.png");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    
+    Brick brick = new Brick(bricksFrames, 20, 0);
+    bricks = new Vector();
+    
+    for (int i = 0; (i * (brick.width + 2)) < getWidth(); i++) {
+      brick = new Brick(bricksFrames, 20, i);
+      brick.sprite.setFrame(i);
+      brick.x = (i * (brick.width + 2));
+      brick.y = 20;
+      bricks.addElement(brick);
+    }
+  }
+  
+  public void run() {
+    init();
+    
+    while (run) {
+      // update game elements, positions, collisions, etc.
+      updateGameState();
+      // check user input
+      checkUserInput();
+      // render screen
+      updateGameScreen(getGraphics());
+      // redraws screen
+      this.flushGraphics();
+      
+      // controls at which rate the updates are done
+      try {
+        Thread.sleep(1);
+      } catch (InterruptedException e) {  
+        e.printStackTrace();
+      }
+    }
+    
+    midlet.endGame(lifes, score, time);
+  }
+  
+  protected void updateGameScreen(Graphics g) {
+    // stores width and height
+    width = getWidth();
+    height = getHeight();
+    
+    // set background color
+    g.setColor(0, 0, 0);
+    
+    // clear screen
+    g.fillRect(0, 0, width, height);
+    
+    // draw score
+    g.setColor(255, 255, 255);
+    g.drawString("Score:" + score + " Lifes:" + lifes + " Time: " + time, 0, 0, Graphics.TOP|Graphics.LEFT);
+    
+    // draw game elements
+    pad.paint(g);
+    ball.paint(g);
+    
+    for (int i = 0; i < bricks.size(); i++) {
+      Brick brick = (Brick)bricks.elementAt(i);
+      brick.paint(g);
+    }
+  }
+  
+  public void updateGameState() {
+    pad.update();
+    ball.update();
+    
+    checkBallCollisionWithWalls();
+    checkBallCollisionWihPad();
+    checkBallCollisionWithBricks();
+    checkBallOutOfReach();
+    
+    // check if all bricks are destroyed    
+    if (bricksHit == bricks.size()) {
+      run = false;
+    }
+  }
+
+  private void checkBallOutOfReach() {      
+    //check if ball passed bottom of screen
+    if (ball.y > getHeight()) {
+      lifes--;
+      ball.x = getWidth() / 2;
+      ball.y = getHeight() / 2;
+      if (lifes == 0) {
+        // game over
+        run = false;        
+      }
+    }
+  }
+
+  private void checkBallCollisionWithBricks() {
+    byte collision;
+    
+    // check if ball hits a brick
+    for (int i = 0; i < bricks.size(); i++) {
+      Brick brick = (Brick)bricks.elementAt(i);
+      if (brick.active) {
+        collision = ball.collided(brick);
+        if (ball.collidedHorizontal(collision)) {
+          ball.x = ball.oldX;
+          //change direction
+          ball.speedX = -ball.speedX;          
+        }
+        
+        if (ball.collidedVertical(collision)) {
+          ball.y = ball.oldY;
+          // change direction
+          ball.speedY = -ball.speedY;          
+        }
+        
+        // if collision happened make brick disappear
+        if (collision != Entity.COLLISION_NONE) {
+          brick.active = false;
+          score += 10;
+          bricksHit++;
+        }
+      }
+    }
+    
+  }
+
+  private void checkBallCollisionWihPad() {
+    // detect collision between ball and pad      
+    byte collision = ball.collided(pad);
+    
+    // change ball direction according to collision
+    if (ball.collidedHorizontal(collision)) {
+      ball.x = ball.oldX;
+      ball.speedX = -ball.speedX;
+    }
+    
+    if (ball.collidedVertical(collision)) {
+      ball.y = ball.oldY;
+      ball.speedY = -ball.speedY;
+    }
+  }
+  
+  private void checkBallCollisionWithWalls() {
+    // check horizontal limits
+    if (ball.x + ball.width > wallMaxX) {
+      ball.x = wallMaxX - ball.width;
+      ball.speedX = -ball.speedX;
+    }
+    
+    if (ball.x < wallMinX) {
+      ball.x = wallMinX;
+      ball.speedX = -ball.speedX;
+    }
+    
+    // check vertical limits
+    if (ball.y + ball.height> wallMaxY) {
+      ball.y = wallMaxY - height;
+      ball.speedY = -ball.speedY;
+    }
+    
+    if (ball.y < wallMinY) {
+      ball.y = wallMinY;
+      ball.speedY = -ball.speedY;
+    }
+  }
+  
+  public void checkUserInput() {
+    int state = getKeyStates();
+    
+    if ((state & GameCanvas.LEFT_PRESSED) > 0) {
+      pad.speedX = -1;      
+    } else if ((state & GameCanvas.RIGHT_PRESSED) > 0) {
+      pad.speedX = 1;
+    } else {
+      pad.speedX = 0;
+    }
+  }
+
+}

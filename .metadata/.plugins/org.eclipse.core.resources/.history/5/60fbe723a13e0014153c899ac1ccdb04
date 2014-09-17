@@ -1,0 +1,5 @@
+package brickgame;
+
+public class Wall {
+
+}
