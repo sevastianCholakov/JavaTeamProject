@@ -26,10 +26,12 @@ public class BallS extends Rectangle {
 
 		if (x + xa < 0) {
 			xa = 3;
+			//Sound.playScoreSound();
 			SinglePlayerState.compScore++;
 		}
 		if (x + xa > GamePanel.WIDTH - image.getWidth(null)){
 			xa = -3;
+			//Sound.playScoreSound();
 			SinglePlayerState.p1Score++;
 		}
 		if (y + ya < 0)
@@ -37,6 +39,7 @@ public class BallS extends Rectangle {
 		if (y + ya > GamePanel.HEIGHT - image.getHeight(null))
 			ya = -1;
 		if (collision()) {
+			//Sound.playHitSound();
 			xa = -xa;
 			if (xa < 11)
 				xa++;
@@ -45,6 +48,7 @@ public class BallS extends Rectangle {
 
 		}
 		if (collision2()) {
+			//Sound.playHitSound();
 			xa = -xa;
 			if (xa > -11)
 				xa--;
@@ -65,14 +69,17 @@ public class BallS extends Rectangle {
 	}
 
 	private boolean collision2() {
+		
 		return SinglePlayerState.racquetAI.getBounds().intersects(getBounds());
 	}
 
 	public void draw(Graphics g) {
+
 		g.drawImage(image, x, y, null);
 	}
 
 	public Rectangle getBounds() {
+		
 		return new Rectangle(x, y, image.getWidth(null), image.getHeight(null));
 	}
 }

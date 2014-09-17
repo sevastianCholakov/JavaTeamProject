@@ -31,12 +31,14 @@ public class MenuState extends GameState {
 	}
 	public void keyPressed(int k){
 		if (k == KeyEvent.VK_S || k == KeyEvent.VK_DOWN) {
+			//Sound.playSelectSound();
 			currentSelection++;
 			if(currentSelection >= options.length){
 				currentSelection = 0;
 			}
 		}
 		else if (k == KeyEvent.VK_W || k == KeyEvent.VK_UP) {
+			//Sound.playSelectSound();
 			currentSelection --;
 			if (currentSelection < 0) {
 				currentSelection = options.length - 1;
@@ -44,15 +46,39 @@ public class MenuState extends GameState {
 		}
 		if (k == KeyEvent.VK_ENTER) {
 			if (currentSelection== 0) {
+				//Sound.playSinglePlayerStart();
+				try {
+					Thread.sleep(1100);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 				gsm.states.push(new SinglePlayerState(gsm));
 			}
 			else if (currentSelection==1) {
+				//Sound.playMultiStart();
+				try {
+					Thread.sleep(2500);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 				gsm.states.push(new MultiPlayerState(gsm));
 			}
 			else if (currentSelection==2) {
+				//Sound.playSinglePlayerStart();
+				try {
+					Thread.sleep(1100);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 				gsm.states.push(new BlockModeState(gsm));
 			}
 			else if (currentSelection == 3) {
+				//Sound.playGameOverSound();
+				try {
+					Thread.sleep(2500);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 				System.exit(0);
 			}
 		}

@@ -15,7 +15,7 @@ public class Ball2M extends Rectangle {
 	int xa = -4;
 	int ya = 2;
 	Image image = Toolkit.getDefaultToolkit().createImage(
-			"lastgifs/mini-angry-bird.gif");
+			"lastgifs/BirdStuff.gif");
 
 	public Ball2M() {
 		setBounds(980, 375, image.getWidth(null), image.getHeight(null));
@@ -25,10 +25,12 @@ public class Ball2M extends Rectangle {
 
 		if (x + xa < 0) {
 			xa = 3;
+			//Sound.playScoreSound();
 			MultiPlayerState.p2Score++;
 		}
 		if (x + xa > GamePanel.WIDTH - image.getWidth(null)){
 			xa = -3;
+			//Sound.playScoreSound();
 			MultiPlayerState.p1Score++;
 		}
 		if (y + ya < 0)
@@ -36,6 +38,7 @@ public class Ball2M extends Rectangle {
 		if (y + ya > GamePanel.HEIGHT - image.getHeight(null))
 			ya = -1;
 		if (collision()) {
+			//Sound.playHitSound();
 			xa = -xa;
 			if (xa < 11)
 				xa++;
@@ -44,6 +47,7 @@ public class Ball2M extends Rectangle {
 		}
 
 		if (collision2()) {
+			//Sound.playHitSound();
 			xa = -xa;
 			if (xa > -11) {
 				xa--;

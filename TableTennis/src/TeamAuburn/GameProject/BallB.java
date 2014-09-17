@@ -22,7 +22,7 @@ public class BallB extends Rectangle {
 	}
 
 	void tick() {
-
+		
 		if (x + xa < 0) {
 			xa = 1;
 
@@ -36,6 +36,7 @@ public class BallB extends Rectangle {
 		if (y + ya > GamePanel.HEIGHT - image.getHeight(null))
 			ya = -ya;
 		if (collision()) {
+			//Sound.playHitSound();
 			ya = -ya;
 			if (ya > -11)
 				ya--;

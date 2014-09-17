@@ -1,13 +1,16 @@
 package TeamAuburn.GameProject;
 
 import java.awt.BorderLayout;
+import java.io.IOException;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JFrame;
 
 public class Game {
 
-	public static void main(String[] args) {
-		
+	public static void main(String[] args) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+		//Sound.playBackGroundLooped();
 		JFrame frame = new JFrame("AngryTennis");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
