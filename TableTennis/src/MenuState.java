@@ -3,7 +3,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
-public class MenuState extends GameState {
+public class MenuState extends GameState { // this class takes all the methods of the GameState Class
 	private String[] options = {"SinglePlayer","MultiPlayer","BlockMode","Quit"};
 	private int currentSelection = 0;
 	

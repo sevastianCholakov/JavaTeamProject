@@ -31,7 +31,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		start();
 	}
 	
-	private void start(){
+	private void start(){    //
 		isRunning = true;
 		thread = new Thread(this);
 		thread.start();
@@ -56,20 +56,22 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		
 	}
 
-	public void run() {
+	public void run() { // our gameloop
 		long start,elapsed,wait;
 		Sound.playSinglePlayerStart();
 		
 		gsm = new GameStateManager();
-		while (isRunning) {
+		while (isRunning) { // if isRunning is false the game will terminate
 			start = System.nanoTime();
 			
 			tick();
 			repaint();
 			
 			elapsed = System.nanoTime() - start;
-			wait = targetTime - elapsed / 1000000;
-			
+			wait = targetTime - elapsed / 1000000;/* if it does everything in less than 60 FPS 
+													we are going to sleep the thread a little 
+													bit so it doesn't run faster on better computers
+*/			
 			if (wait<=0) {
 				wait = 5;
 			}
@@ -126,15 +128,15 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	private void gameOverM2() {
         JOptionPane.showMessageDialog(this, "Player2 wins",
                 "Game Over", JOptionPane.YES_NO_OPTION);
-
-
+        
+        System.exit(0);
 	}
 	
 	
 	public void paintComponent(Graphics g ){
 		super.paintComponent(g);
 		
-		g.clearRect(0, 0, WIDTH, HEIGHT);
+		g.clearRect(0, 0, WIDTH, HEIGHT); // clears the whole screen before it redraws it
 		gsm.draw(g);
 	}
 }

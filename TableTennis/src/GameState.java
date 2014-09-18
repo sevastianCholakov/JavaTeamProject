@@ -3,7 +3,7 @@
 import java.awt.Graphics;
 
 
-public abstract class GameState {
+public abstract class GameState { 
 	protected GameStateManager gsm;
 	public GameState(GameStateManager gsm){
 		this.gsm = gsm;

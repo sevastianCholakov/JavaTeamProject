@@ -24,4 +24,5 @@
 <fullyQualifiedTypeName name="java.awt.GraphicsEnvironment"/>
 <fullyQualifiedTypeName name="MultiPlayerState"/>
 <fullyQualifiedTypeName name="javax.swing.JOptionPane"/>
+<fullyQualifiedTypeName name="GameStateManager"/>
 </qualifiedTypeNameHistroy>
