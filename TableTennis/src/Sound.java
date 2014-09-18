@@ -22,6 +22,7 @@ public class Sound implements Runnable {
 	private static final AudioClip multiPlayerStart =  Applet.newAudioClip(Sound.class.getResource("computerStartGame.wav"));
 	private static final AudioClip singlePlayerStart =  Applet.newAudioClip(Sound.class.getResource("powerup.wav"));
 	private static final AudioClip blockHit =  Applet.newAudioClip(Sound.class.getResource("blockHit.wav"));
+	private static final AudioClip flawless =  Applet.newAudioClip(Sound.class.getResource("flawless.wav"));
 	
 	public static void playBackGroundLooped() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 		 File file = new File("bin/JazzTip.wav");
@@ -57,6 +58,9 @@ public class Sound implements Runnable {
 	}
 	public static void playGameOverSound() {
 		gameover.play();
+	}
+	public static void playflawlessSound() {
+		flawless.play();
 	}
 	
 	public static void playScoreSound() {

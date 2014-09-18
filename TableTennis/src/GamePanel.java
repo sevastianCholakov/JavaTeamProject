@@ -86,6 +86,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	    	Sound.playGameOverSound();
 	    	gameOverB();
 	    }
+	    
 	    if (SinglePlayerState.p1Score == 10) {
 	    	Sound.playGameOverSound();  
 	    	gameOverS1();
@@ -94,11 +95,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	    	Sound.playGameOverSound();
 	    	gameOverS2();
 	    }
-	    if (MultiPlayerState.p1Score == 10) {
+	    
+	    if (MultiPlayerState.p1Score == 10 ) {
 	    	Sound.playGameOverSound();
 			gameOverS1();
 	    }
-	    if (MultiPlayerState.p2Score == 10) {
+	    if (MultiPlayerState.p2Score == 10 ) {
 	    	Sound.playGameOverSound();
 	    	gameOverM2();
 	    }
@@ -125,7 +127,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         JOptionPane.showMessageDialog(this, "Player2 wins",
                 "Game Over", JOptionPane.YES_NO_OPTION);
 
-        System.exit(0);
+
 	}
 	
 	

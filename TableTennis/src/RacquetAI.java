@@ -19,10 +19,10 @@ public class RacquetAI extends Rectangle {
 	public void tick(){
 		
 		if (SinglePlayerState.ball.y<y&& y>=0) { 
-			y-=1;
+			y-=2;
 		}
 		if (SinglePlayerState.ball.y>y && y  < GamePanel.HEIGHT - height) { 
-			y+=1;		
+			y+=2;		
 	}
 	}
 	

@@ -10,14 +10,14 @@ import javax.swing.JFrame;
 public class Game {
 
 	public static void main(String[] args) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-		//Sound.playBackGroundLooped();
+		Sound.playBackGroundLooped();
 		JFrame frame = new JFrame("AngryTennis");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
 		frame.setLayout(new BorderLayout());
 		frame.add(new GamePanel(),BorderLayout.CENTER);
 		frame.pack();
-		frame.setLocationRelativeTo(null);;
+		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 	}
 
